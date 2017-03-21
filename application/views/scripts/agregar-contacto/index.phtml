@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/classic/theme-classic/resources/theme-classic-all.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/ext-all.js"></script>
+    <script type="text/javascript">
+    	Ext.onReady(function() {   
+    		/* formulario agregar contacto*/
+            Ext.create('Ext.form.Panel', {
+            title: 'Ingresa los datos:',
+            renderTo: 'formularioAgregar',
+            bodyPadding: 5,
+            width: 550,
+            // Any configuration items here will be automatically passed along to
+            // the Ext.form.Basic instance when it gets created.
+
+            // The form will submit an AJAX request to this URL when submitted
+            url: 'prueba.php',
+
+            items: [
+                {
+                    xtype: 'textfield',                    
+                    fieldStyle: 'width:400px;',
+                    fieldLabel: 'Nombre:',
+                    name: 'nombre'
+                },
+                {
+                    xtype: 'textfield',
+                    fieldStyle: 'width:400px;',
+                    fieldLabel: 'Identificacion:',
+                    name: 'identificacion'
+                }, 
+                {
+                    xtype: 'textfield',
+                    fieldStyle: 'width:400px;',
+                    fieldLabel: 'Correo:',
+                    name: 'correo'
+                }, 
+                {
+                    xtype: 'textfield',
+                    fieldStyle: 'width:400px;',
+                    fieldLabel: 'Teléfono:',
+                    name: 'telefono'
+                },
+
+            ],
+            buttons: [
+            	{
+                text: 'Guardar	',
+                handler: function() {
+                    // The getForm() method returns the Ext.form.Basic instance:
+                    var form = this.up('form').getForm();
+                    if (form.isValid()) {
+                        // Submit the Ajax request and handle the response
+                        form.submit({
+                            success: function(form, action) {
+                               Ext.Msg.alert('Success', action.result.message);
+                            },
+                            failure: function(form, action) {
+                                Ext.Msg.alert('Failed', action.result ? action.result.message : 'No response');
+
+
+                            }
+                        });
+                    }
+                	} 
+                },
+                {
+                	text: 'Cancelar', 
+                	handler: function(){                			
+                		location.href="../index/index";
+                	}
+                }
+                ]
+        	});            
+        });    
+    </script>	
+    </head>
+<body>          
+	<h1 style="margin-left:40px;">Agregar Contacto</h1>
+    <div style="margin-left:40px;" id="formularioAgregar"></div>
+</body>
+</html>
+
+    

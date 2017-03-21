@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/classic/theme-classic/resources/theme-classic-all.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/extjs/6.0.0/ext-all.js"></script>
+    <script type="text/javascript">
+        Ext.onReady(function() {            
+            Ext.create('Ext.data.Store', {
+                storeId:'employeeStore',
+                fields:['firstname', 'lastname', 'seniority', 'dep', 'hired'],
+                proxy: {
+                    type: 'ajax',
+                    url: '../../application/controllers/EndPointListaContactos.php',
+                    reader: {
+                        type: 'json',
+                        rootProperty: 'data'
+                    }
+                },
+                autoLoad:true
+        });
+            Ext.create('Ext.grid.Panel', {
+                title: 'Lista de contactos',
+                store: Ext.data.StoreManager.lookup('employeeStore'),
+                columns: [
+                    {text: 'Nombre',  dataIndex:'firstname'},
+                    {text: 'identificacion',  dataIndex:'lastname'},
+                    {text: 'Telefono',  dataIndex:'hired', xtype:'datecolumn', format:'M'},
+                    {text: 'Department (Yrs)', xtype:'templatecolumn', tpl:'{dep} ({seniority})'}
+                ],
+                width: 800,
+                height: 500,
+                forceFit: true,
+                renderTo: 'tabla'   
+            });              
+            /* boton de agregar contactos*/
+            var button = Ext.create('Ext.Button', {
+               renderTo: Ext.getElementById('agregarContacto'),
+            text: 'Agregar contacto'
+            });
+
+            // This way we can attach event to the button after the button is created.
+            button.on('click', function() {
+               location.href="../agregar-contacto/index"
+            });
+            /* boton de prueba de importar contactos desde excel*/
+            var button = Ext.create('Ext.Button', {
+               renderTo: Ext.getElementById('importarContactos'),
+            text: 'Importar contactos desde Excel'
+            });
+            // This way we can attach event to the button after the button is created.
+            button.on('click', function() {
+               Ext.MessageBox.alert('De prueba', 'Función no disponible');
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1 style="margin-left:40px;"> Simulación aplicación de Contactos de Alegra</h1>
+    <div style="margin: 40px;" id="tabla"/>    
+    <table style="margin-bottom:10px; ">
+        <tr>
+            <td><div id = 'agregarContacto' />  </td>        
+            <td> <div id="importarContactos" />   </td>
+        </tr>
+    </table>
+    <!--
+    <form action="" method="post" style="margin: 10px;">
+        <input type="submit" name="agregar" id="agregar" value="Agregar contacto">
+        <input type="button" name="importar" id="importar" value="Importar contactos desde Excel">
+        <a href="agregar-contacto/index"> agregar contacto </a>
+
+    </form>  -->
+</body>
+</html>
+
+
+
+
+
